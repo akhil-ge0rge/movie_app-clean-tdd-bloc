@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "backdrop_path": "backdropPath",
+  "poster_path":  "posterPath",
+  "title": "title",
+  "adult": false
+}
