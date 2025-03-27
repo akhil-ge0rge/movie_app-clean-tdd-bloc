@@ -1,7 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/extensions/media_query_extensions.dart';
 import 'package:movie_app/core/utils/colors.dart';
+import 'package:movie_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:movie_app/features/home/presentation/widgets/tabbar_movie_card.dart';
 import 'package:movie_app/features/home/presentation/widgets/trending_movie_widget.dart';
 
@@ -19,6 +21,19 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<HomeBloc>().add(FetchTrendingMovies());
+    });
+    _tabController.addListener(() {
+      int val = _tabController.index;
+      if (val == 0) {
+        context.read<HomeBloc>().add(FetchUpcomingMovies());
+      } else if (val == 1) {
+        context.read<HomeBloc>().add(FetchTopRatedMovies());
+      } else {
+        context.read<HomeBloc>().add(FetchPopularMovies());
+      }
+    });
     super.initState();
   }
 
@@ -42,6 +57,7 @@ class _HomePageState extends State<HomePage>
             Padding(
               padding: const EdgeInsets.all(25),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "What do you want to watch?",
@@ -79,6 +95,9 @@ class _HomePageState extends State<HomePage>
             (scrHeight * 0.04).height,
             TabBar(
               controller: _tabController,
+
+              physics: NeverScrollableScrollPhysics(),
+
               dividerHeight: 0,
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -96,22 +115,99 @@ class _HomePageState extends State<HomePage>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 9 / 13,
-                    ),
-                    padding: EdgeInsets.all(20),
-                    itemBuilder:
-                        (context, index) => TabbarMovieCard(
-                          scrHeight: scrHeight,
-                          scrWidth: scrWidth,
-                        ),
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state.upcomingMovieLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state.upcomingMovieError != null) {
+                        return Center(
+                          child: Text(state.upcomingMovieError.toString()),
+                        );
+                      } else {
+                        return GridView.builder(
+                          itemCount: state.upcomingMovie.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 9 / 13,
+                              ),
+                          padding: EdgeInsets.all(20),
+                          itemBuilder: (context, index) {
+                            final movie = state.upcomingMovie.elementAt(index);
+                            return TabbarMovieCard(
+                              movie: movie,
+                              scrHeight: scrHeight,
+                              scrWidth: scrWidth,
+                            );
+                          },
+                        );
+                      }
+                    },
                   ),
-                  Container(),
-                  Container(),
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state.topratedMovieLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state.topratedMovieError != null) {
+                        return Center(
+                          child: Text(state.topratedMovieError.toString()),
+                        );
+                      } else {
+                        return GridView.builder(
+                          itemCount: state.topratedMovie.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 9 / 13,
+                              ),
+                          padding: EdgeInsets.all(20),
+                          itemBuilder: (context, index) {
+                            final movie = state.topratedMovie.elementAt(index);
+                            return TabbarMovieCard(
+                              movie: movie,
+                              scrHeight: scrHeight,
+                              scrWidth: scrWidth,
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state.popularMovieLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state.popularMovieError != null) {
+                        return Center(
+                          child: Text(state.popularMovieError.toString()),
+                        );
+                      } else {
+                        return GridView.builder(
+                          itemCount: state.popularMovie.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 9 / 13,
+                              ),
+                          padding: EdgeInsets.all(20),
+                          itemBuilder: (context, index) {
+                            final movie = state.popularMovie.elementAt(index);
+                            return TabbarMovieCard(
+                              movie: movie,
+                              scrHeight: scrHeight,
+                              scrWidth: scrWidth,
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
                 ],
               ),
             ),

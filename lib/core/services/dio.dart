@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:movie_app/core/constants/app_url.dart';
 import 'package:movie_app/core/errors/exception.dart';
@@ -50,7 +51,7 @@ class DioService {
   /// Fetch Auth Token (Replace with actual token fetching logic)
   Future<String> _getAuthToken() async {
     // Fetch token from secure storage or authentication provider
-    return 'your_dynamic_token'; // Replace this with actual logic
+    return 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNDBkOThjMjhkNDQwODAzYTI3NjM1NjU0MzI1MDE2NCIsIm5iZiI6MTY0ODM2NDMxNS41NjksInN1YiI6IjYyNDAwYjFiOTQ1MWU3MDA4YzhkOGUwMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1fPWTlRTLa3tAGAJsv12DcYv-QwLFlXMWsr1NUfzYpo'; // Replace this with actual logic
   }
 
   /// Custom Error Handling
@@ -86,6 +87,7 @@ class DioService {
     try {
       return await _dio.get(endpoint, queryParameters: params);
     } on DioException catch (e) {
+      log(e.toString());
       _handleDioError(e);
     }
   }
