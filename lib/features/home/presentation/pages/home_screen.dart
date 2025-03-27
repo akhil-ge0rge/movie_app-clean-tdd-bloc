@@ -27,10 +27,13 @@ class _HomePageState extends State<HomePage>
     _tabController.addListener(() {
       int val = _tabController.index;
       if (val == 0) {
+        if (context.read<HomeBloc>().state.upcomingMovie.isNotEmpty) return;
         context.read<HomeBloc>().add(FetchUpcomingMovies());
       } else if (val == 1) {
+        if (context.read<HomeBloc>().state.topratedMovie.isNotEmpty) return;
         context.read<HomeBloc>().add(FetchTopRatedMovies());
       } else {
+        if (context.read<HomeBloc>().state.popularMovie.isNotEmpty) return;
         context.read<HomeBloc>().add(FetchPopularMovies());
       }
     });
