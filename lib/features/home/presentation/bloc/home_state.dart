@@ -4,8 +4,8 @@ class HomeState {
   final List<Movie> trendingMovie;
   final bool trendingMovieLoading;
   final String? trendingMovieError;
-  final bool? trendingMoviePaginationLoading;
-  final bool? trendingMoviePaginationHasMore;
+  final bool trendingMoviePaginationLoading;
+  final bool trendingMoviePaginationHasMore;
   final List<Movie> topratedMovie;
   final bool topratedMovieLoading;
   final String? topratedMovieError;

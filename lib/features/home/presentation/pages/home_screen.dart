@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage>
 
   void _listedTabControllerIndexChange() {
     _tabController.addListener(() {
-      log("Hello");
       int val = _tabController.index;
       if (val == 0) {
         if (context.read<HomeBloc>().state.upcomingMovie.isNotEmpty) return;
@@ -79,12 +78,14 @@ class _HomePageState extends State<HomePage>
                   (scrHeight * 0.02).height,
                   GestureDetector(
                     onTap: () {
-                      context.read<NavigationBloc>().add(ChangeIndex(index: 1));
+                      context.read<NavigationBloc>().add(
+                        const ChangeIndex(index: 1),
+                      );
                     },
                     child: Container(
                       width: scrWidth,
                       height: scrHeight * 0.05,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: ColorSys.kUnselectedBottomBarIconColor,
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePage>
                               context,
                             ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                           ),
-                          Icon(Icons.search, color: Colors.grey),
+                          const Icon(Icons.search, color: Colors.grey),
                         ],
                       ),
                     ),
@@ -109,24 +110,24 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            TrendingMovieWidget(),
+            const TrendingMovieWidget(),
             (scrHeight * 0.04).height,
             TabBar(
               controller: _tabController,
 
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
 
               dividerHeight: 0,
               indicatorSize: TabBarIndicatorSize.tab,
-              indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
+              indicatorPadding: const EdgeInsets.symmetric(horizontal: 15),
               indicatorAnimation: TabIndicatorAnimation.elastic,
               indicatorColor: colorScheme.onSecondary,
               labelColor: colorScheme.onSecondary,
               unselectedLabelColor: colorScheme.onPrimary,
               tabs: [
-                Tab(text: "Upcoming"),
-                Tab(text: "Top Rated"),
-                Tab(text: "Popular"),
+                const Tab(text: "Upcoming"),
+                const Tab(text: "Top Rated"),
+                const Tab(text: "Popular"),
               ],
             ),
             Expanded(
@@ -136,7 +137,7 @@ class _HomePageState extends State<HomePage>
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
                       if (state.upcomingMovieLoading) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else if (state.upcomingMovieError != null) {
                         return Center(
                           child: Text(state.upcomingMovieError.toString()),
@@ -145,13 +146,13 @@ class _HomePageState extends State<HomePage>
                         return GridView.builder(
                           itemCount: state.upcomingMovie.length,
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
                                 mainAxisSpacing: 10,
                                 crossAxisSpacing: 10,
                                 childAspectRatio: 9 / 13,
                               ),
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           itemBuilder: (context, index) {
                             final movie = state.upcomingMovie.elementAt(index);
                             return TabbarMovieCard(
@@ -167,7 +168,7 @@ class _HomePageState extends State<HomePage>
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
                       if (state.topratedMovieLoading) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else if (state.topratedMovieError != null) {
                         return Center(
                           child: Text(state.topratedMovieError.toString()),
@@ -176,13 +177,13 @@ class _HomePageState extends State<HomePage>
                         return GridView.builder(
                           itemCount: state.topratedMovie.length,
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
                                 mainAxisSpacing: 10,
                                 crossAxisSpacing: 10,
                                 childAspectRatio: 9 / 13,
                               ),
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           itemBuilder: (context, index) {
                             final movie = state.topratedMovie.elementAt(index);
                             return TabbarMovieCard(
@@ -198,7 +199,7 @@ class _HomePageState extends State<HomePage>
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
                       if (state.popularMovieLoading) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else if (state.popularMovieError != null) {
                         return Center(
                           child: Text(state.popularMovieError.toString()),
@@ -207,13 +208,13 @@ class _HomePageState extends State<HomePage>
                         return GridView.builder(
                           itemCount: state.popularMovie.length,
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
                                 mainAxisSpacing: 10,
                                 crossAxisSpacing: 10,
                                 childAspectRatio: 9 / 13,
                               ),
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           itemBuilder: (context, index) {
                             final movie = state.popularMovie.elementAt(index);
                             return TabbarMovieCard(

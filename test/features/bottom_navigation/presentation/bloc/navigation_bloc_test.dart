@@ -14,7 +14,7 @@ void main() {
     });
 
     test('Initial state should be [NavigationState] with index 0', () {
-      expect(bloc.state, NavigationState(index: 0));
+      expect(bloc.state, const NavigationState(index: 0));
     });
 
     blocTest(
@@ -23,8 +23,8 @@ void main() {
         return bloc;
       },
 
-      act: (bloc) => bloc.add(ChangeIndex(index: 1)),
-      expect: () => [NavigationState(index: 1)],
+      act: (bloc) => bloc.add(const ChangeIndex(index: 1)),
+      expect: () => [const NavigationState(index: 1)],
     );
   });
 }

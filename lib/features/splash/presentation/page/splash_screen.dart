@@ -22,12 +22,12 @@ class _SplashScreenState extends State<SplashScreen> {
       listener: (context, state) {
         if (state is SplashLoaded) {
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => BottomNavigationScreen()),
+            MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
             (route) => false,
           );
         }
       },
-      child: Scaffold(body: Center(child: Text("Splash Screen"))),
+      child: const Scaffold(body: Center(child: Text("Splash Screen"))),
     );
   }
 }

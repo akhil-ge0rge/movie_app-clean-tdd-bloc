@@ -24,7 +24,7 @@ void main() {
       },
       act: (bloc) => bloc.add(SplashStart()),
       expect: () => [SplashLoaded()],
-      wait: Duration(seconds: 3),
+      wait: const Duration(seconds: 3),
     );
   });
 }

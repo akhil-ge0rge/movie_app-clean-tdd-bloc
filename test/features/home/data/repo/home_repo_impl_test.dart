@@ -14,7 +14,7 @@ void main() {
   late HomeRemoteDatasource remote;
   late HomeRepoImpl homeRepoImpl;
 
-  final tMovie = MovieModel(
+  final tMovie = const MovieModel(
     id: 0,
     backdropPath: 'backdropPath',
     posterPath: 'posterPath',
@@ -99,12 +99,14 @@ void main() {
     test(
       'should return [List<Movie>] when call to remote datasource is successful',
       () async {
-        when(() => remote.getTrendingMovie()).thenAnswer((_) async => [tMovie]);
+        when(
+          () => remote.getTrendingMovie(pageNum: any(named: 'pageNum')),
+        ).thenAnswer((_) async => [tMovie]);
 
-        final res = await homeRepoImpl.getTrendingMovie();
+        final res = await homeRepoImpl.getTrendingMovie(pageNum: 1);
 
         expect(res, isA<Right<dynamic, List<Movie>>>());
-        verify(() => remote.getTrendingMovie()).called(1);
+        verify(() => remote.getTrendingMovie(pageNum: 1)).called(1);
         verifyNoMoreInteractions(remote);
       },
     );
@@ -112,10 +114,12 @@ void main() {
     test(
       'should return [ServerException] when call to remote datasource is unsuccessful',
       () async {
-        when(() => remote.getTrendingMovie()).thenThrow(tException);
-        final res = await homeRepoImpl.getTrendingMovie();
+        when(
+          () => remote.getTrendingMovie(pageNum: any(named: 'pageNum')),
+        ).thenThrow(tException);
+        final res = await homeRepoImpl.getTrendingMovie(pageNum: 1);
         expect(res, Left(ServerFailure.fromException(tException)));
-        verify(() => remote.getTrendingMovie()).called(1);
+        verify(() => remote.getTrendingMovie(pageNum: 1)).called(1);
         verifyNoMoreInteractions(remote);
       },
     );

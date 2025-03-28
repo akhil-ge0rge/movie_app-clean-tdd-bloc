@@ -25,7 +25,7 @@ class TrendingMovieWidget extends StatelessWidget {
         BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state.trendingMovieLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state.trendingMovieError != null) {
               return Center(child: Text(state.trendingMovieError.toString()));
             } else {
@@ -42,11 +42,27 @@ class TrendingMovieWidget extends StatelessWidget {
                   },
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
                     separatorBuilder:
                         (context, index) => (scrWidth * 0.04).width,
-                    itemCount: state.trendingMovie.length,
+                    itemCount:
+                        state.trendingMoviePaginationLoading
+                            ? state.trendingMovie.length + 1
+                            : state.trendingMovie.length,
                     itemBuilder: (context, index) {
+                      if (state.trendingMoviePaginationLoading) {
+                        if (index == state.trendingMovie.length) {
+                          return const Center(
+                            child: CircularProgressIndicator.adaptive(
+                              backgroundColor: Colors.yellowAccent,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.yellowAccent,
+                              ),
+                            ),
+                          );
+                        }
+                      }
+
                       final movie = state.trendingMovie.elementAt(index);
                       return Stack(
                         clipBehavior: Clip.none,

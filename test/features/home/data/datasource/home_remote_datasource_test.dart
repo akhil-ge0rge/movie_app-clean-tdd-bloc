@@ -38,7 +38,7 @@ void main() {
     ],
   };
 
-  void _setMockDioGetFailure(String path) {
+  void setMockDioGetFailure(String path) {
     when(() => dio.get(any(), params: any(named: 'params'))).thenThrow(
       DioException(
         response: Response(
@@ -51,7 +51,7 @@ void main() {
     );
   }
 
-  void _setMockDioGetSucess(String path) {
+  void setMockDioGetSucess(String path) {
     when(() => dio.get(any(), params: any(named: 'params'))).thenAnswer(
       (_) async => Response(
         data: tJsonResponse,
@@ -63,7 +63,7 @@ void main() {
 
   group('getPopularMovie', () {
     test('should return [List<MovieModel>] when call is success', () async {
-      _setMockDioGetSucess(AppUrl.popularMovieEND);
+      setMockDioGetSucess(AppUrl.popularMovieEND);
       final result = await datasource.getPopularMovie();
       expect(result, isA<List<MovieModel>>());
       expect(result.length, 1);
@@ -74,7 +74,7 @@ void main() {
     });
 
     test('should throw [ServerException] when call fails', () async {
-      _setMockDioGetFailure(AppUrl.popularMovieEND);
+      setMockDioGetFailure(AppUrl.popularMovieEND);
 
       final result = datasource.getPopularMovie;
       expect(result(), throwsA(isA<ServerException>()));
@@ -87,7 +87,7 @@ void main() {
 
   group('getTopRatedMovie', () {
     test('should return [List<MovieModel>] when call is succes', () async {
-      _setMockDioGetSucess(AppUrl.topRatedMovieEND);
+      setMockDioGetSucess(AppUrl.topRatedMovieEND);
 
       final res = await datasource.getTopRatedMovie();
 
@@ -99,7 +99,7 @@ void main() {
     });
 
     test('should throw [ServerException] when call fails', () async {
-      _setMockDioGetFailure(AppUrl.topRatedMovieEND);
+      setMockDioGetFailure(AppUrl.topRatedMovieEND);
       final res = datasource.getTopRatedMovie;
 
       expect(res(), throwsA(isA<ServerException>()));
@@ -112,9 +112,9 @@ void main() {
 
   group('getTrendingMovie', () {
     test('should return [List<MovieModel>] when call is success', () async {
-      _setMockDioGetSucess(AppUrl.trendingMovieEND);
+      setMockDioGetSucess(AppUrl.trendingMovieEND);
 
-      final res = await datasource.getTrendingMovie();
+      final res = await datasource.getTrendingMovie(pageNum: 1);
       expect(res, isA<List<MovieModel>>());
       verify(
         () => dio.get(AppUrl.trendingMovieEND, params: any(named: 'params')),
@@ -123,10 +123,10 @@ void main() {
     });
 
     test('should throw [ServerException] when call fails', () {
-      _setMockDioGetFailure(AppUrl.trendingMovieEND);
+      setMockDioGetFailure(AppUrl.trendingMovieEND);
       final call = datasource.getTrendingMovie;
 
-      expect(call(), throwsA(isA<ServerException>()));
+      expect(call(pageNum: 1), throwsA(isA<ServerException>()));
       verify(
         () => dio.get(AppUrl.trendingMovieEND, params: any(named: 'params')),
       ).called(1);
@@ -136,7 +136,7 @@ void main() {
 
   group('getUpcomingMovie', () {
     test('should return [List<MovieModel>] when call is success', () async {
-      _setMockDioGetSucess(AppUrl.upcomingMovieEND);
+      setMockDioGetSucess(AppUrl.upcomingMovieEND);
 
       final res = await datasource.getUpcomingMovie();
       expect(res, isA<List<MovieModel>>());
@@ -147,7 +147,7 @@ void main() {
     });
 
     test('should throw [ServerException] when call fails', () async {
-      _setMockDioGetFailure(AppUrl.upcomingMovieEND);
+      setMockDioGetFailure(AppUrl.upcomingMovieEND);
       final call = datasource.getUpcomingMovie;
 
       expect(call(), throwsA(isA<ServerException>()));

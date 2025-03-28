@@ -59,15 +59,15 @@ class DioService {
     if (error.response != null) {
       switch (error.response!.statusCode) {
         case 400:
-          throw ServerException(message: "Bad Request", statusCode: 400);
+          throw const ServerException(message: "Bad Request", statusCode: 400);
         case 401:
-          throw ServerException(message: "Unauthorized", statusCode: 401);
+          throw const ServerException(message: "Unauthorized", statusCode: 401);
         case 403:
-          throw ServerException(message: "Forbidden", statusCode: 403);
+          throw const ServerException(message: "Forbidden", statusCode: 403);
         case 404:
-          throw ServerException(message: "Not Found", statusCode: 404);
+          throw const ServerException(message: "Not Found", statusCode: 404);
         case 500:
-          throw ServerException(
+          throw const ServerException(
             message: "Internal Server Error",
             statusCode: 500,
           );
@@ -78,7 +78,7 @@ class DioService {
           );
       }
     } else {
-      throw ServerException(message: "Network error", statusCode: 500);
+      throw const ServerException(message: "Network error", statusCode: 500);
     }
   }
 

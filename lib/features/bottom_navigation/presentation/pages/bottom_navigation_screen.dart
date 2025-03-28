@@ -13,7 +13,7 @@ class BottomNavigationScreen extends StatefulWidget {
 }
 
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
-  final List<Widget> _screens = [HomePage(), SearchScreen(), FavouriteScreen()];
+  final List<Widget> _screens = [const HomePage(), const SearchScreen(), const FavouriteScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +30,12 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               context.read<NavigationBloc>().add(ChangeIndex(index: value));
             },
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.search),
                 label: 'Search',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.favorite),
                 label: 'Favorite',
               ),

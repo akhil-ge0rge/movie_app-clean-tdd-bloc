@@ -8,7 +8,7 @@ import 'package:movie_app/core/utils/typedef.dart';
 import '../../../fixtures/fixture_reader.dart';
 
 void main() {
-  final tMovieModel = MovieModel(
+  final tMovieModel = const MovieModel(
     id: 1,
     backdropPath: "backdropPath",
     posterPath: "posterPath",
