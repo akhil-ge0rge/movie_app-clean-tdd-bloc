@@ -64,7 +64,7 @@ void main() {
   group('getPopularMovie', () {
     test('should return [List<MovieModel>] when call is success', () async {
       setMockDioGetSucess(AppUrl.popularMovieEND);
-      final result = await datasource.getPopularMovie();
+      final result = await datasource.getPopularMovie(pageNum: 1);
       expect(result, isA<List<MovieModel>>());
       expect(result.length, 1);
       verify(
@@ -77,7 +77,7 @@ void main() {
       setMockDioGetFailure(AppUrl.popularMovieEND);
 
       final result = datasource.getPopularMovie;
-      expect(result(), throwsA(isA<ServerException>()));
+      expect(result(pageNum: 1), throwsA(isA<ServerException>()));
       verify(
         () => dio.get(AppUrl.popularMovieEND, params: any(named: 'params')),
       ).called(1);
@@ -89,7 +89,7 @@ void main() {
     test('should return [List<MovieModel>] when call is succes', () async {
       setMockDioGetSucess(AppUrl.topRatedMovieEND);
 
-      final res = await datasource.getTopRatedMovie();
+      final res = await datasource.getTopRatedMovie(pageNum: 1);
 
       expect(res, isA<List<MovieModel>>());
       verify(
@@ -102,7 +102,7 @@ void main() {
       setMockDioGetFailure(AppUrl.topRatedMovieEND);
       final res = datasource.getTopRatedMovie;
 
-      expect(res(), throwsA(isA<ServerException>()));
+      expect(res(pageNum: 1), throwsA(isA<ServerException>()));
       verify(
         () => dio.get(AppUrl.topRatedMovieEND, params: any(named: 'params')),
       ).called(1);
@@ -138,7 +138,7 @@ void main() {
     test('should return [List<MovieModel>] when call is success', () async {
       setMockDioGetSucess(AppUrl.upcomingMovieEND);
 
-      final res = await datasource.getUpcomingMovie();
+      final res = await datasource.getUpcomingMovie(pageNum: 1);
       expect(res, isA<List<MovieModel>>());
       verify(
         () => dio.get(AppUrl.upcomingMovieEND, params: any(named: 'params')),
@@ -150,7 +150,7 @@ void main() {
       setMockDioGetFailure(AppUrl.upcomingMovieEND);
       final call = datasource.getUpcomingMovie;
 
-      expect(call(), throwsA(isA<ServerException>()));
+      expect(call(pageNum: 1), throwsA(isA<ServerException>()));
       verify(
         () => dio.get(AppUrl.upcomingMovieEND, params: any(named: 'params')),
       ).called(1);

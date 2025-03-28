@@ -5,21 +5,21 @@ import 'package:movie_app/core/errors/exception.dart';
 import 'package:movie_app/core/services/dio.dart';
 
 abstract class HomeRemoteDatasource {
-  Future<List<MovieModel>> getPopularMovie();
-  Future<List<MovieModel>> getTopRatedMovie();
+  Future<List<MovieModel>> getPopularMovie({required int pageNum});
+  Future<List<MovieModel>> getTopRatedMovie({required int pageNum});
   Future<List<MovieModel>> getTrendingMovie({required int pageNum});
-  Future<List<MovieModel>> getUpcomingMovie();
+  Future<List<MovieModel>> getUpcomingMovie({required int pageNum});
 }
 
 class HomeRemoteDatasourceImpl implements HomeRemoteDatasource {
   final DioService dioService;
   HomeRemoteDatasourceImpl(this.dioService);
   @override
-  Future<List<MovieModel>> getPopularMovie() async {
+  Future<List<MovieModel>> getPopularMovie({required int pageNum}) async {
     try {
       final res = await dioService.get(
         AppUrl.popularMovieEND,
-        params: {'language': 'en-US', 'page': 1},
+        params: {'language': 'en-US', 'page': pageNum},
       );
 
       final listMovie = res.data['results'] as List;
@@ -36,11 +36,11 @@ class HomeRemoteDatasourceImpl implements HomeRemoteDatasource {
   }
 
   @override
-  Future<List<MovieModel>> getTopRatedMovie() async {
+  Future<List<MovieModel>> getTopRatedMovie({required int pageNum}) async {
     try {
       final res = await dioService.get(
         AppUrl.topRatedMovieEND,
-        params: {'language': 'en-US', 'page': 1},
+        params: {'language': 'en-US', 'page': pageNum},
       );
 
       final listMovie = res.data['results'] as List;
@@ -78,11 +78,11 @@ class HomeRemoteDatasourceImpl implements HomeRemoteDatasource {
   }
 
   @override
-  Future<List<MovieModel>> getUpcomingMovie() async {
+  Future<List<MovieModel>> getUpcomingMovie({required int pageNum}) async {
     try {
       final res = await dioService.get(
         AppUrl.upcomingMovieEND,
-        params: {'language': 'en-US', 'page': 1},
+        params: {'language': 'en-US', 'page': pageNum},
       );
 
       final listMovie = res.data['results'] as List;

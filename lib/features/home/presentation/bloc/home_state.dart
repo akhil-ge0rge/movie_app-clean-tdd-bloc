@@ -9,12 +9,18 @@ class HomeState {
   final List<Movie> topratedMovie;
   final bool topratedMovieLoading;
   final String? topratedMovieError;
+  final bool topratedMoviePaginationLoading;
+  final bool topratedMoviePaginationHasMore;
   final List<Movie> upcomingMovie;
   final bool upcomingMovieLoading;
   final String? upcomingMovieError;
+  final bool upcomingMoviePaginationLoading;
+  final bool upcomingMoviePaginationHasMore;
   final List<Movie> popularMovie;
   final bool popularMovieLoading;
   final String? popularMovieError;
+  final bool popularMoviePaginationLoading;
+  final bool popularMoviePaginationHasMore;
 
   HomeState({
     this.trendingMovie = const [],
@@ -25,12 +31,18 @@ class HomeState {
     this.topratedMovie = const [],
     this.topratedMovieLoading = false,
     this.topratedMovieError,
+    this.topratedMoviePaginationHasMore = true,
+    this.topratedMoviePaginationLoading = false,
     this.upcomingMovie = const [],
     this.upcomingMovieLoading = false,
     this.upcomingMovieError,
+    this.upcomingMoviePaginationHasMore = true,
+    this.upcomingMoviePaginationLoading = false,
     this.popularMovie = const [],
     this.popularMovieLoading = false,
     this.popularMovieError,
+    this.popularMoviePaginationHasMore = true,
+    this.popularMoviePaginationLoading = false,
   });
 
   HomeState copyWith({
@@ -42,12 +54,18 @@ class HomeState {
     List<Movie>? topratedMovie,
     bool? topratedMovieLoading,
     String? topratedMovieError,
+    bool? topratedMoviePaginationLoading,
+    bool? topratedMoviePaginationHasMore,
     List<Movie>? upcomingMovie,
     bool? upcomingMovieLoading,
     String? upcomingMovieError,
+    bool? upcomingMoviePaginationLoading,
+    bool? upcomingMoviePaginationHasMore,
     List<Movie>? popularMovie,
     bool? popularMovieLoading,
     String? popularMovieError,
+    bool? popularMoviePaginationLoading,
+    bool? popularMoviePaginationHasMore,
   }) {
     return HomeState(
       trendingMovie: trendingMovie ?? this.trendingMovie,
@@ -66,6 +84,18 @@ class HomeState {
           trendingMoviePaginationHasMore ?? this.trendingMoviePaginationHasMore,
       trendingMoviePaginationLoading:
           trendingMoviePaginationLoading ?? this.trendingMoviePaginationLoading,
+      popularMoviePaginationHasMore:
+          popularMoviePaginationHasMore ?? this.popularMoviePaginationHasMore,
+      popularMoviePaginationLoading:
+          popularMoviePaginationLoading ?? this.popularMoviePaginationLoading,
+      topratedMoviePaginationHasMore:
+          topratedMoviePaginationHasMore ?? this.topratedMoviePaginationHasMore,
+      topratedMoviePaginationLoading:
+          topratedMoviePaginationLoading ?? this.topratedMoviePaginationLoading,
+      upcomingMoviePaginationHasMore:
+          upcomingMoviePaginationHasMore ?? this.upcomingMoviePaginationHasMore,
+      upcomingMoviePaginationLoading:
+          upcomingMoviePaginationLoading ?? this.upcomingMoviePaginationLoading,
     );
   }
 }

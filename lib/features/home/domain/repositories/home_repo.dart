@@ -5,7 +5,7 @@ abstract class HomeRepo {
   const HomeRepo();
 
   ResultFuture<List<Movie>> getTrendingMovie({required int pageNum});
-  ResultFuture<List<Movie>> getUpcomingMovie();
-  ResultFuture<List<Movie>> getTopRatedMovie();
-  ResultFuture<List<Movie>> getPopularMovie();
+  ResultFuture<List<Movie>> getUpcomingMovie({required int pageNum});
+  ResultFuture<List<Movie>> getTopRatedMovie({required int pageNum});
+  ResultFuture<List<Movie>> getPopularMovie({required int pageNum});
 }

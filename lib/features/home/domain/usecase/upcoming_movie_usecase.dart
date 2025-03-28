@@ -3,10 +3,11 @@ import 'package:movie_app/core/usecase/usecase.dart';
 import 'package:movie_app/core/utils/typedef.dart';
 import 'package:movie_app/features/home/domain/repositories/home_repo.dart';
 
-class UpcomingMovieUsecase extends UseCaseWithOutParams<List<Movie>> {
+class UpcomingMovieUsecase extends UseCaseWithParams<List<Movie>, int> {
   const UpcomingMovieUsecase(this._homeRepo);
   final HomeRepo _homeRepo;
 
   @override
-  ResultFuture<List<Movie>> call() => _homeRepo.getUpcomingMovie();
+  ResultFuture<List<Movie>> call(int pageNum) =>
+      _homeRepo.getUpcomingMovie(pageNum: pageNum);
 }

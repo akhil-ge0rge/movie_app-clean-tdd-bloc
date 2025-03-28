@@ -37,12 +37,14 @@ void main() {
     test(
       'should return [List<Movie>] when call to remote datasource is success',
       () async {
-        when(() => remote.getPopularMovie()).thenAnswer((_) async => [tMovie]);
+        when(
+          () => remote.getPopularMovie(pageNum: any(named: 'pageNum')),
+        ).thenAnswer((_) async => [tMovie]);
 
-        final res = await homeRepoImpl.getPopularMovie();
+        final res = await homeRepoImpl.getPopularMovie(pageNum: 1);
 
         expect(res, isA<Right<dynamic, List<Movie>>>());
-        verify(() => remote.getPopularMovie()).called(1);
+        verify(() => remote.getPopularMovie(pageNum: 1)).called(1);
         verifyNoMoreInteractions(remote);
       },
     );
@@ -50,14 +52,16 @@ void main() {
     test(
       'should return [ServerException] when call to remote datasource is unsccessful',
       () async {
-        when(() => remote.getPopularMovie()).thenThrow(tException);
+        when(
+          () => remote.getPopularMovie(pageNum: any(named: 'pageNum')),
+        ).thenThrow(tException);
 
-        final res = await homeRepoImpl.getPopularMovie();
+        final res = await homeRepoImpl.getPopularMovie(pageNum: 1);
         expect(
           res,
           Left<Failure, dynamic>(ServerFailure.fromException(tException)),
         );
-        verify(() => remote.getPopularMovie()).called(1);
+        verify(() => remote.getPopularMovie(pageNum: 1)).called(1);
         verifyNoMoreInteractions(remote);
       },
     );
@@ -67,12 +71,14 @@ void main() {
     test(
       'should return [List<Movie>] when call to remote datasource is sucess',
       () async {
-        when(() => remote.getTopRatedMovie()).thenAnswer((_) async => [tMovie]);
+        when(
+          () => remote.getTopRatedMovie(pageNum: any(named: 'pageNum')),
+        ).thenAnswer((_) async => [tMovie]);
 
-        final res = await homeRepoImpl.getTopRatedMovie();
+        final res = await homeRepoImpl.getTopRatedMovie(pageNum: 1);
 
         expect(res, isA<Right<dynamic, List<Movie>>>());
-        verify(() => remote.getTopRatedMovie()).called(1);
+        verify(() => remote.getTopRatedMovie(pageNum: 1)).called(1);
         verifyNoMoreInteractions(remote);
       },
     );
@@ -80,16 +86,18 @@ void main() {
     test(
       'should return [ServerException] when call to remote datasource is unsuccessful',
       () async {
-        when(() => remote.getTopRatedMovie()).thenThrow(tException);
+        when(
+          () => remote.getTopRatedMovie(pageNum: any(named: 'pageNum')),
+        ).thenThrow(tException);
 
-        final res = await homeRepoImpl.getTopRatedMovie();
+        final res = await homeRepoImpl.getTopRatedMovie(pageNum: 1);
 
         expect(
           res,
           Left<Failure, dynamic>(ServerFailure.fromException(tException)),
         );
 
-        verify(() => remote.getTopRatedMovie()).called(1);
+        verify(() => remote.getTopRatedMovie(pageNum: 1)).called(1);
         verifyNoMoreInteractions(remote);
       },
     );
@@ -129,12 +137,14 @@ void main() {
     test(
       'should return [List<Movie>] when call to remote datasource is successful',
       () async {
-        when(() => remote.getUpcomingMovie()).thenAnswer((_) async => [tMovie]);
+        when(
+          () => remote.getUpcomingMovie(pageNum: any(named: 'pageNum')),
+        ).thenAnswer((_) async => [tMovie]);
 
-        final res = await homeRepoImpl.getUpcomingMovie();
+        final res = await homeRepoImpl.getUpcomingMovie(pageNum: 1);
 
         expect(res, isA<Right<dynamic, List<Movie>>>());
-        verify(() => remote.getUpcomingMovie()).called(1);
+        verify(() => remote.getUpcomingMovie(pageNum: 1)).called(1);
         verifyNoMoreInteractions(remote);
       },
     );
@@ -142,10 +152,12 @@ void main() {
     test(
       'should return [ServerException] when call to remote datasource is unsuccessful',
       () async {
-        when(() => remote.getUpcomingMovie()).thenThrow(tException);
-        final res = await homeRepoImpl.getUpcomingMovie();
+        when(
+          () => remote.getUpcomingMovie(pageNum: any(named: 'pageNum')),
+        ).thenThrow(tException);
+        final res = await homeRepoImpl.getUpcomingMovie(pageNum: 1);
         expect(res, Left(ServerFailure.fromException(tException)));
-        verify(() => remote.getUpcomingMovie()).called(1);
+        verify(() => remote.getUpcomingMovie(pageNum: 1)).called(1);
         verifyNoMoreInteractions(remote);
       },
     );

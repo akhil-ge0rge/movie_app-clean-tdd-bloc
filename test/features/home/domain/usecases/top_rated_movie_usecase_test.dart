@@ -21,27 +21,27 @@ void main() {
   group('TopratedMovieUsecase', () {
     test('should return [Movie] list from [HomeRepo]', () async {
       when(
-        () => repo.getTopRatedMovie(),
+        () => repo.getTopRatedMovie(pageNum: any(named: 'pageNum')),
       ).thenAnswer((_) async => const Right([]));
 
-      final res = await usecase();
+      final res = await usecase(1);
 
       expect(res, equals(const Right<Failure, List<Movie>>([])));
 
-      verify(() => repo.getTopRatedMovie()).called(1);
+      verify(() => repo.getTopRatedMovie(pageNum: 1)).called(1);
       verifyNoMoreInteractions(repo);
     });
 
     test('should return [Failure] when repository fails', () async {
       final failure = ServerFailure(message: "Server error", statusCode: 200);
       when(
-        () => repo.getTopRatedMovie(),
+        () => repo.getTopRatedMovie(pageNum: any(named: 'pageNum')),
       ).thenAnswer((_) async => Left(failure));
 
-      final res = await usecase();
+      final res = await usecase(1);
       expect(res, equals(Left(failure)));
 
-      verify(() => repo.getTopRatedMovie()).called(1);
+      verify(() => repo.getTopRatedMovie(pageNum: 1)).called(1);
       verifyNoMoreInteractions(repo);
     });
   });

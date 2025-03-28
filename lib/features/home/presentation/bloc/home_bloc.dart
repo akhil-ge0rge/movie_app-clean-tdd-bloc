@@ -11,6 +11,10 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   int trendingMoviePage = 1;
+  int topratedMoviePage = 1;
+  int upcomingMoviePage = 1;
+  int popularMoviePage = 1;
+  int pageLimit = 500;
   final PopularMovieUsecase popularMovieUsecase;
   final TopratedMovieUsecase topratedMovieUsecase;
   final TrendingMovieUsecase trendingMovieUsecase;
@@ -31,17 +35,46 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchPopularMovies event,
     Emitter<HomeState> emit,
   ) async {
-    emit(state.copyWith(popularMovieLoading: true));
+    if (!state.trendingMoviePaginationHasMore ||
+        state.trendingMoviePaginationLoading == true) {
+      return;
+    }
 
-    final result = await popularMovieUsecase();
+    if (state.trendingMovie.isEmpty) {
+      emit(state.copyWith(popularMovieLoading: true));
+    } else {
+      emit(state.copyWith(popularMoviePaginationLoading: true));
+    }
+
+    final result = await popularMovieUsecase(popularMoviePage);
     result.fold(
       (l) => emit(
         state.copyWith(
           popularMovieError: l.message,
           popularMovieLoading: false,
+          popularMoviePaginationLoading: false,
         ),
       ),
-      (r) => emit(state.copyWith(popularMovie: r, popularMovieLoading: false)),
+      (r) {
+        if (r.isEmpty) {
+          emit(
+            state.copyWith(
+              popularMovieLoading: false,
+              popularMoviePaginationLoading: false,
+              popularMoviePaginationHasMore: false,
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              popularMovie: [...state.popularMovie, ...r],
+              popularMovieLoading: false,
+              popularMoviePaginationLoading: false,
+            ),
+          );
+          popularMoviePage++;
+        }
+      },
     );
   }
 
@@ -49,18 +82,46 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchTopRatedMovies event,
     Emitter<HomeState> emit,
   ) async {
-    emit(state.copyWith(topratedMovieLoading: true));
+    if (!state.topratedMoviePaginationHasMore ||
+        state.topratedMoviePaginationLoading) {
+      return;
+    }
 
-    final result = await topratedMovieUsecase();
+    if (state.topratedMovie.isEmpty) {
+      emit(state.copyWith(topratedMovieLoading: true));
+    } else {
+      emit(state.copyWith(topratedMoviePaginationLoading: true));
+    }
+
+    final result = await topratedMovieUsecase(topratedMoviePage);
     result.fold(
       (l) => emit(
         state.copyWith(
           topratedMovieError: l.message,
           topratedMovieLoading: false,
+          topratedMoviePaginationLoading: false,
         ),
       ),
-      (r) =>
-          emit(state.copyWith(topratedMovie: r, topratedMovieLoading: false)),
+      (r) {
+        if (r.isEmpty) {
+          emit(
+            state.copyWith(
+              topratedMovieLoading: false,
+              topratedMoviePaginationLoading: false,
+              topratedMoviePaginationHasMore: false,
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              topratedMovie: [...state.topratedMovie, ...r],
+              topratedMovieLoading: false,
+              topratedMoviePaginationLoading: false,
+            ),
+          );
+          topratedMoviePage++;
+        }
+      },
     );
   }
 
@@ -68,8 +129,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchTrendingMovies event,
     Emitter<HomeState> emit,
   ) async {
-    if (state.trendingMoviePaginationHasMore == false &&
-        state.trendingMoviePaginationLoading == true) {
+    if (state.trendingMoviePaginationHasMore == false ||
+        state.trendingMoviePaginationLoading == true ||
+        trendingMoviePage > pageLimit) {
       return;
     }
     if (state.trendingMovie.isEmpty) {
@@ -96,15 +158,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               trendingMoviePaginationHasMore: false,
             ),
           );
+        } else {
+          emit(
+            state.copyWith(
+              trendingMovie: [...state.trendingMovie, ...r],
+              trendingMovieLoading: false,
+              trendingMoviePaginationLoading: false,
+            ),
+          );
+          trendingMoviePage++;
         }
-        emit(
-          state.copyWith(
-            trendingMovie: [...state.trendingMovie, ...r],
-            trendingMovieLoading: false,
-            trendingMoviePaginationLoading: false,
-          ),
-        );
-        trendingMoviePage++;
       },
     );
   }
@@ -113,18 +176,48 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchUpcomingMovies event,
     Emitter<HomeState> emit,
   ) async {
-    emit(state.copyWith(upcomingMovieLoading: true));
+    if (!state.upcomingMoviePaginationHasMore ||
+        state.upcomingMoviePaginationLoading) {
+      return;
+    }
 
-    final result = await upcomingMovieUsecase();
+    if (state.upcomingMovie.isEmpty) {
+      emit(state.copyWith(upcomingMovieLoading: true));
+    } else {
+      emit(state.copyWith(upcomingMoviePaginationLoading: true));
+    }
+
+    final result = await upcomingMovieUsecase(upcomingMoviePage);
     result.fold(
-      (l) => emit(
-        state.copyWith(
-          upcomingMovieError: l.message,
-          upcomingMovieLoading: false,
-        ),
-      ),
-      (r) =>
-          emit(state.copyWith(upcomingMovie: r, upcomingMovieLoading: false)),
+      (l) {
+        emit(
+          state.copyWith(
+            upcomingMovieError: l.message,
+            upcomingMoviePaginationLoading: false,
+            upcomingMovieLoading: false,
+          ),
+        );
+      },
+      (r) {
+        if (r.isEmpty) {
+          emit(
+            state.copyWith(
+              upcomingMovieLoading: false,
+              upcomingMoviePaginationHasMore: false,
+              upcomingMoviePaginationLoading: false,
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              upcomingMovie: [...state.upcomingMovie, ...r],
+              upcomingMovieLoading: false,
+              upcomingMoviePaginationLoading: false,
+            ),
+          );
+          upcomingMoviePage++;
+        }
+      },
     );
   }
 }

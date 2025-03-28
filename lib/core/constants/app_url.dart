@@ -9,4 +9,6 @@ class AppUrl {
   static const String popularMovieEND = '/movie/popular';
 
   static const String imageBaseURL = "https://image.tmdb.org/t/p/w500";
+  static const String brokenImageURL =
+      "https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png";
 }
