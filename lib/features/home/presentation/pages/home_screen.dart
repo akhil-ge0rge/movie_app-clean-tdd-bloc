@@ -1,8 +1,10 @@
-import 'package:flutter/gestures.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/extensions/media_query_extensions.dart';
 import 'package:movie_app/core/utils/colors.dart';
+import 'package:movie_app/features/bottom_navigation/presentation/bloc/navigation_bloc.dart';
 import 'package:movie_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:movie_app/features/home/presentation/widgets/tabbar_movie_card.dart';
 import 'package:movie_app/features/home/presentation/widgets/trending_movie_widget.dart';
@@ -17,27 +19,35 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late HomeBloc homeBloc;
 
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<HomeBloc>().add(FetchTrendingMovies());
+      homeBloc = context.read<HomeBloc>();
+      homeBloc.add(FetchTrendingMovies());
+      homeBloc.add(FetchUpcomingMovies());
     });
+    _listedTabControllerIndexChange();
+    super.initState();
+  }
+
+  void _listedTabControllerIndexChange() {
     _tabController.addListener(() {
+      log("Hello");
       int val = _tabController.index;
       if (val == 0) {
         if (context.read<HomeBloc>().state.upcomingMovie.isNotEmpty) return;
-        context.read<HomeBloc>().add(FetchUpcomingMovies());
+        homeBloc.add(FetchUpcomingMovies());
       } else if (val == 1) {
         if (context.read<HomeBloc>().state.topratedMovie.isNotEmpty) return;
-        context.read<HomeBloc>().add(FetchTopRatedMovies());
+        homeBloc.add(FetchTopRatedMovies());
       } else {
         if (context.read<HomeBloc>().state.popularMovie.isNotEmpty) return;
-        context.read<HomeBloc>().add(FetchPopularMovies());
+        homeBloc.add(FetchPopularMovies());
       }
     });
-    super.initState();
   }
 
   @override
@@ -67,27 +77,32 @@ class _HomePageState extends State<HomePage>
                     style: textTheme.bodyMedium,
                   ),
                   (scrHeight * 0.02).height,
-                  Container(
-                    width: scrWidth,
-                    height: scrHeight * 0.05,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: ColorSys.kUnselectedBottomBarIconColor,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  GestureDetector(
+                    onTap: () {
+                      context.read<NavigationBloc>().add(ChangeIndex(index: 1));
+                    },
+                    child: Container(
+                      width: scrWidth,
+                      height: scrHeight * 0.05,
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: ColorSys.kUnselectedBottomBarIconColor,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
 
-                      children: [
-                        Text(
-                          "Search",
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodySmall?.copyWith(color: Colors.grey),
-                        ),
-                        Icon(Icons.search, color: Colors.grey),
-                      ],
+                        children: [
+                          Text(
+                            "Search",
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall?.copyWith(color: Colors.grey),
+                          ),
+                          Icon(Icons.search, color: Colors.grey),
+                        ],
+                      ),
                     ),
                   ),
                   (scrHeight * 0.04).height,

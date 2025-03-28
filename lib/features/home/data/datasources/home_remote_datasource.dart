@@ -7,7 +7,7 @@ import 'package:movie_app/core/services/dio.dart';
 abstract class HomeRemoteDatasource {
   Future<List<MovieModel>> getPopularMovie();
   Future<List<MovieModel>> getTopRatedMovie();
-  Future<List<MovieModel>> getTrendingMovie();
+  Future<List<MovieModel>> getTrendingMovie({required int pageNum});
   Future<List<MovieModel>> getUpcomingMovie();
 }
 
@@ -57,11 +57,11 @@ class HomeRemoteDatasourceImpl implements HomeRemoteDatasource {
   }
 
   @override
-  Future<List<MovieModel>> getTrendingMovie() async {
+  Future<List<MovieModel>> getTrendingMovie({required int pageNum}) async {
     try {
       final res = await dioService.get(
         AppUrl.trendingMovieEND,
-        params: {'language': 'en-US', 'page': 1},
+        params: {'language': 'en-US', 'page': pageNum},
       );
 
       final listMovie = res.data['results'] as List;

@@ -4,6 +4,8 @@ class HomeState {
   final List<Movie> trendingMovie;
   final bool trendingMovieLoading;
   final String? trendingMovieError;
+  final bool? trendingMoviePaginationLoading;
+  final bool? trendingMoviePaginationHasMore;
   final List<Movie> topratedMovie;
   final bool topratedMovieLoading;
   final String? topratedMovieError;
@@ -18,6 +20,8 @@ class HomeState {
     this.trendingMovie = const [],
     this.trendingMovieLoading = false,
     this.trendingMovieError,
+    this.trendingMoviePaginationHasMore = true,
+    this.trendingMoviePaginationLoading = false,
     this.topratedMovie = const [],
     this.topratedMovieLoading = false,
     this.topratedMovieError,
@@ -33,6 +37,8 @@ class HomeState {
     List<Movie>? trendingMovie,
     bool? trendingMovieLoading,
     String? trendingMovieError,
+    bool? trendingMoviePaginationLoading,
+    bool? trendingMoviePaginationHasMore,
     List<Movie>? topratedMovie,
     bool? topratedMovieLoading,
     String? topratedMovieError,
@@ -56,6 +62,10 @@ class HomeState {
       topratedMovieLoading: topratedMovieLoading ?? this.topratedMovieLoading,
       trendingMovieLoading: trendingMovieLoading ?? this.trendingMovieLoading,
       upcomingMovieLoading: upcomingMovieLoading ?? this.upcomingMovieLoading,
+      trendingMoviePaginationHasMore:
+          trendingMoviePaginationHasMore ?? this.trendingMoviePaginationHasMore,
+      trendingMoviePaginationLoading:
+          trendingMoviePaginationLoading ?? this.trendingMoviePaginationLoading,
     );
   }
 }

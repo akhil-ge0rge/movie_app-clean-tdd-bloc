@@ -30,9 +30,9 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  ResultFuture<List<Movie>> getTrendingMovie() async {
+  ResultFuture<List<Movie>> getTrendingMovie({required int pageNum}) async {
     try {
-      final res = await remoteDatasource.getTrendingMovie();
+      final res = await remoteDatasource.getTrendingMovie(pageNum: pageNum);
       return Right(res);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromException(e));

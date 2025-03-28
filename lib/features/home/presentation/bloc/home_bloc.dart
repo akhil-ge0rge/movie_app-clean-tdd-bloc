@@ -10,6 +10,7 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  int trendingMoviePage = 1;
   final PopularMovieUsecase popularMovieUsecase;
   final TopratedMovieUsecase topratedMovieUsecase;
   final TrendingMovieUsecase trendingMovieUsecase;
@@ -67,18 +68,44 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchTrendingMovies event,
     Emitter<HomeState> emit,
   ) async {
-    emit(state.copyWith(trendingMovieLoading: true));
+    if (state.trendingMoviePaginationHasMore == false &&
+        state.trendingMoviePaginationLoading == true) {
+      return;
+    }
+    if (state.trendingMovie.isEmpty) {
+      emit(state.copyWith(trendingMovieLoading: true));
+    } else {
+      emit(state.copyWith(trendingMoviePaginationLoading: true));
+    }
+    final result = await trendingMovieUsecase(trendingMoviePage);
 
-    final result = await trendingMovieUsecase();
     result.fold(
       (l) => emit(
         state.copyWith(
           trendingMovieError: l.message,
           trendingMovieLoading: false,
+          trendingMoviePaginationLoading: false,
         ),
       ),
-      (r) =>
-          emit(state.copyWith(trendingMovie: r, trendingMovieLoading: false)),
+      (r) {
+        if (r.isEmpty) {
+          emit(
+            state.copyWith(
+              trendingMovieLoading: false,
+              trendingMoviePaginationLoading: false,
+              trendingMoviePaginationHasMore: false,
+            ),
+          );
+        }
+        emit(
+          state.copyWith(
+            trendingMovie: [...state.trendingMovie, ...r],
+            trendingMovieLoading: false,
+            trendingMoviePaginationLoading: false,
+          ),
+        );
+        trendingMoviePage++;
+      },
     );
   }
 

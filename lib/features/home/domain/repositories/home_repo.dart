@@ -4,7 +4,7 @@ import 'package:movie_app/core/utils/typedef.dart';
 abstract class HomeRepo {
   const HomeRepo();
 
-  ResultFuture<List<Movie>> getTrendingMovie();
+  ResultFuture<List<Movie>> getTrendingMovie({required int pageNum});
   ResultFuture<List<Movie>> getUpcomingMovie();
   ResultFuture<List<Movie>> getTopRatedMovie();
   ResultFuture<List<Movie>> getPopularMovie();

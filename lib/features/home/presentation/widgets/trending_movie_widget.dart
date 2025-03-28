@@ -32,61 +32,72 @@ class TrendingMovieWidget extends StatelessWidget {
               return SizedBox(
                 height: scrHeight * 0.26,
                 width: scrWidth,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  separatorBuilder: (context, index) => (scrWidth * 0.04).width,
-                  itemCount: state.trendingMovie.length,
-                  itemBuilder: (context, index) {
-                    final movie = state.trendingMovie.elementAt(index);
-                    return Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Container(
-                          height: scrHeight * 0.24,
-                          width: scrWidth * 0.4,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(18),
-                            child: CachedNetworkImage(
-                              imageUrl: AppUrl.imageBaseURL + movie.posterPath,
-                              fit: BoxFit.fill,
-                              memCacheHeight:
-                                  ((scrHeight * 0.24).toInt() *
-                                          MediaQuery.of(
-                                            context,
-                                          ).devicePixelRatio)
-                                      .round(),
-                              memCacheWidth:
-                                  ((scrWidth * 0.4).toInt() *
-                                          MediaQuery.of(
-                                            context,
-                                          ).devicePixelRatio)
-                                      .round(),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: -25,
-                          left: -10,
-                          child: Text(
-                            (index + 1).toString(),
-                            style: textTheme.bodyLarge?.copyWith(
-                              fontSize: 80,
-
-                              foreground:
-                                  Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 4
-                                    ..color = Colors.blueAccent,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
+                child: NotificationListener(
+                  onNotification: (ScrollNotification scrollNoti) {
+                    if (scrollNoti.metrics.pixels ==
+                        scrollNoti.metrics.maxScrollExtent) {
+                      context.read<HomeBloc>().add(FetchTrendingMovies());
+                    }
+                    return false;
                   },
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    separatorBuilder:
+                        (context, index) => (scrWidth * 0.04).width,
+                    itemCount: state.trendingMovie.length,
+                    itemBuilder: (context, index) {
+                      final movie = state.trendingMovie.elementAt(index);
+                      return Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            height: scrHeight * 0.24,
+                            width: scrWidth * 0.4,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(18),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    AppUrl.imageBaseURL + movie.posterPath,
+                                fit: BoxFit.fill,
+                                memCacheHeight:
+                                    ((scrHeight * 0.24).toInt() *
+                                            MediaQuery.of(
+                                              context,
+                                            ).devicePixelRatio)
+                                        .round(),
+                                memCacheWidth:
+                                    ((scrWidth * 0.4).toInt() *
+                                            MediaQuery.of(
+                                              context,
+                                            ).devicePixelRatio)
+                                        .round(),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: -25,
+                            left: -10,
+                            child: Text(
+                              (index + 1).toString(),
+                              style: textTheme.bodyLarge?.copyWith(
+                                fontSize: 80,
+
+                                foreground:
+                                    Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = 4
+                                      ..color = Colors.blueAccent,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               );
             }
