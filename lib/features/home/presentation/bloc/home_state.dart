@@ -1,6 +1,6 @@
 part of 'home_bloc.dart';
 
-class HomeState {
+class HomeState extends Equatable {
   final List<Movie> trendingMovie;
   final bool trendingMovieLoading;
   final String? trendingMovieError;
@@ -22,7 +22,7 @@ class HomeState {
   final bool popularMoviePaginationLoading;
   final bool popularMoviePaginationHasMore;
 
-  HomeState({
+  const HomeState({
     this.trendingMovie = const [],
     this.trendingMovieLoading = false,
     this.trendingMovieError,
@@ -98,4 +98,28 @@ class HomeState {
           upcomingMoviePaginationLoading ?? this.upcomingMoviePaginationLoading,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    trendingMovie,
+    trendingMovieLoading,
+    trendingMovieError,
+    trendingMoviePaginationLoading,
+    trendingMoviePaginationHasMore,
+    topratedMovie,
+    topratedMovieLoading,
+    topratedMovieError,
+    topratedMoviePaginationLoading,
+    topratedMoviePaginationHasMore,
+    upcomingMovie,
+    upcomingMovieLoading,
+    upcomingMovieError,
+    upcomingMoviePaginationLoading,
+    upcomingMoviePaginationHasMore,
+    popularMovie,
+    popularMovieLoading,
+    popularMovieError,
+    popularMoviePaginationLoading,
+    popularMoviePaginationHasMore,
+  ];
 }

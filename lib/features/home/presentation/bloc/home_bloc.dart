@@ -24,7 +24,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required this.topratedMovieUsecase,
     required this.trendingMovieUsecase,
     required this.upcomingMovieUsecase,
-  }) : super(HomeState()) {
+  }) : super(const HomeState()) {
     on<FetchPopularMovies>(_handleFetchPopularMovie);
     on<FetchTopRatedMovies>(_handleFetchTopRatedMovie);
     on<FetchTrendingMovies>(_handleFetchTrendingMovie);
@@ -35,12 +35,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchPopularMovies event,
     Emitter<HomeState> emit,
   ) async {
-    if (!state.trendingMoviePaginationHasMore ||
-        state.trendingMoviePaginationLoading == true) {
+    if (!state.popularMoviePaginationHasMore ||
+        state.popularMoviePaginationLoading ||
+        popularMoviePage > pageLimit) {
       return;
     }
 
-    if (state.trendingMovie.isEmpty) {
+    if (state.popularMovie.isEmpty) {
       emit(state.copyWith(popularMovieLoading: true));
     } else {
       emit(state.copyWith(popularMoviePaginationLoading: true));
@@ -65,6 +66,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             ),
           );
         } else {
+          popularMoviePage++;
           emit(
             state.copyWith(
               popularMovie: [...state.popularMovie, ...r],
@@ -72,7 +74,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               popularMoviePaginationLoading: false,
             ),
           );
-          popularMoviePage++;
         }
       },
     );
@@ -82,8 +83,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchTopRatedMovies event,
     Emitter<HomeState> emit,
   ) async {
-    if (!state.topratedMoviePaginationHasMore ||
-        state.topratedMoviePaginationLoading) {
+    if (state.topratedMoviePaginationLoading ||
+        !state.topratedMoviePaginationHasMore ||
+        topratedMoviePage > pageLimit) {
       return;
     }
 
@@ -129,8 +131,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchTrendingMovies event,
     Emitter<HomeState> emit,
   ) async {
-    if (state.trendingMoviePaginationHasMore == false ||
-        state.trendingMoviePaginationLoading == true ||
+    if (state.trendingMoviePaginationLoading == true ||
+        !state.trendingMoviePaginationHasMore ||
         trendingMoviePage > pageLimit) {
       return;
     }
@@ -159,6 +161,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             ),
           );
         } else {
+          trendingMoviePage++;
           emit(
             state.copyWith(
               trendingMovie: [...state.trendingMovie, ...r],
@@ -166,7 +169,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               trendingMoviePaginationLoading: false,
             ),
           );
-          trendingMoviePage++;
         }
       },
     );
@@ -176,8 +178,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchUpcomingMovies event,
     Emitter<HomeState> emit,
   ) async {
-    if (!state.upcomingMoviePaginationHasMore ||
-        state.upcomingMoviePaginationLoading) {
+    if (state.upcomingMoviePaginationLoading ||
+        !state.upcomingMoviePaginationHasMore ||
+        upcomingMoviePage > pageLimit) {
       return;
     }
 

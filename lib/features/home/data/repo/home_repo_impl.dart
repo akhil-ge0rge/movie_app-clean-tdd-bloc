@@ -10,39 +10,26 @@ class HomeRepoImpl implements HomeRepo {
   HomeRepoImpl(this.remoteDatasource);
   final HomeRemoteDatasource remoteDatasource;
   @override
-  ResultFuture<List<Movie>> getPopularMovie({required int pageNum}) async {
-    try {
-      final res = await remoteDatasource.getPopularMovie(pageNum: pageNum);
-      return Right(res);
-    } on ServerException catch (e) {
-      return Left(ServerFailure.fromException(e));
-    }
-  }
+  ResultFuture<List<Movie>> getPopularMovie({required int pageNum}) =>
+      fetchApi(() => remoteDatasource.getPopularMovie(pageNum: pageNum));
 
   @override
-  ResultFuture<List<Movie>> getTopRatedMovie({required int pageNum}) async {
-    try {
-      final res = await remoteDatasource.getTopRatedMovie(pageNum: pageNum);
-      return Right(res);
-    } on ServerException catch (e) {
-      return Left(ServerFailure.fromException(e));
-    }
-  }
+  ResultFuture<List<Movie>> getTopRatedMovie({required int pageNum}) =>
+      fetchApi(() => remoteDatasource.getTopRatedMovie(pageNum: pageNum));
 
   @override
-  ResultFuture<List<Movie>> getTrendingMovie({required int pageNum}) async {
-    try {
-      final res = await remoteDatasource.getTrendingMovie(pageNum: pageNum);
-      return Right(res);
-    } on ServerException catch (e) {
-      return Left(ServerFailure.fromException(e));
-    }
-  }
+  ResultFuture<List<Movie>> getTrendingMovie({required int pageNum}) =>
+      fetchApi(() => remoteDatasource.getTrendingMovie(pageNum: pageNum));
 
   @override
-  ResultFuture<List<Movie>> getUpcomingMovie({required int pageNum}) async {
+  ResultFuture<List<Movie>> getUpcomingMovie({required int pageNum}) =>
+      fetchApi(() => remoteDatasource.getUpcomingMovie(pageNum: pageNum));
+
+  ResultFuture<List<Movie>> fetchApi(
+    Future<List<Movie>> Function() apicall,
+  ) async {
     try {
-      final res = await remoteDatasource.getUpcomingMovie(pageNum: pageNum);
+      final res = await apicall();
       return Right(res);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromException(e));
