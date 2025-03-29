@@ -36,7 +36,7 @@ class HomeRemoteDatasourceImpl implements HomeRemoteDatasource {
   }) async {
     try {
       final res = await dioService.get(
-        AppUrl.popularMovieEND,
+        apiEndPoint,
         params: {'language': 'en-US', 'page': pageNum},
       );
 
