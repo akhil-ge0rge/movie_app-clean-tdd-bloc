@@ -7,6 +7,7 @@ class AppUrl {
   static const String upcomingMovieEND =
       '/movie/upcoming?language=en-US&page=1';
   static const String popularMovieEND = '/movie/popular';
+  static const String movieDetailsEND = '/movie';
 
   static const String imageBaseURL = "https://image.tmdb.org/t/p/w500";
   static const String brokenImageURL =

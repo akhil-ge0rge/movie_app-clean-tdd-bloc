@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:movie_app/core/common/feature/movie_details/domain/entities/movie_genres.dart';
+
 class MovieDetail extends Equatable {
   final int id;
   final String originalTitle;
@@ -21,23 +23,16 @@ class MovieDetail extends Equatable {
     required this.releaseDate,
   });
   @override
-  List<Object?> get props => [
-    id,
-    originalTitle,
-    adult,
-    backdropPath,
-    genres,
-    overview,
-    posterPath,
-    releaseDate,
-  ];
-}
-
-class MovieGenres extends Equatable {
-  final int id;
-  final int name;
-
-  const MovieGenres({required this.id, required this.name});
-  @override
-  List<Object?> get props => [id, name];
+  List<Object> get props {
+    return [
+      id,
+      originalTitle,
+      adult,
+      backdropPath,
+      genres,
+      overview,
+      posterPath,
+      releaseDate,
+    ];
+  }
 }
