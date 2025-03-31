@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/core/constants/app_url.dart';
 import 'package:movie_app/core/extensions/media_query_extensions.dart';
 import 'package:movie_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:movie_app/features/home/presentation/widgets/trending_movie_card.dart';

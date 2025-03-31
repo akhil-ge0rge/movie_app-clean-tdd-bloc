@@ -12,7 +12,17 @@ class AppTheme {
       unselectedItemColor: ColorSys.kUnselectedBottomBarIconColor,
     ),
     scaffoldBackgroundColor: ColorSys.kbackgroundColor,
-
+    appBarTheme: AppBarTheme(
+      titleTextStyle: TextStyle(
+        color: ColorSys.kprimary,
+        fontSize: 18,
+        fontFamily: "Poppins",
+        fontWeight: FontWeight.bold,
+      ),
+      backgroundColor: ColorSys.kbackgroundColor,
+      iconTheme: IconThemeData(color: ColorSys.kprimary),
+      actionsIconTheme: IconThemeData(color: ColorSys.kprimary),
+    ),
     fontFamily: 'Poppins',
     textTheme: TextTheme(
       bodyLarge: TextStyle(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/core/services/injection_container.dart';
+import 'package:movie_app/core/routes/routing.dart';
 import 'package:movie_app/core/theme/app_theme.dart';
 import 'package:movie_app/features/bottom_navigation/presentation/bloc/navigation_bloc.dart';
 import 'package:movie_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:movie_app/features/splash/presentation/bloc/splash_bloc.dart';
-import 'package:movie_app/features/splash/presentation/page/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,11 +27,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Movie App',
       theme: AppTheme.theme,
-      home: const SplashScreen(),
+      routerConfig: PageRouter.router,
     );
   }
 }

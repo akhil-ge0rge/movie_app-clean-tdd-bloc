@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/features/bottom_navigation/presentation/pages/bottom_navigation_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movie_app/core/routes/route_names.dart';
 import 'package:movie_app/features/splash/presentation/bloc/splash_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -21,10 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) {
         if (state is SplashLoaded) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
-            (route) => false,
-          );
+          context.go(RouteNames.bottomNavBar);
         }
       },
       child: const Scaffold(body: Center(child: Text("Splash Screen"))),
