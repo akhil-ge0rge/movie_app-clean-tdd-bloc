@@ -6,7 +6,7 @@ import 'package:movie_app/core/common/feature/movie_details/domain/entities/movi
 class MovieGenresModel extends MovieGenres {
   const MovieGenresModel({required super.id, required super.name});
 
-  MovieGenres copyWith({int? id, int? name}) {
+  MovieGenres copyWith({int? id, String? name}) {
     return MovieGenres(id: id ?? this.id, name: name ?? this.name);
   }
 
@@ -15,7 +15,7 @@ class MovieGenresModel extends MovieGenres {
   }
 
   factory MovieGenresModel.fromMap(Map<String, dynamic> map) {
-    return MovieGenresModel(id: map['id'] ?? '', name: map['name'] ?? '');
+    return MovieGenresModel(id: map['id'] ?? 0, name: map['name'] ?? '');
   }
 
   String toJson() => json.encode(toMap());

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/core/common/feature/movie_details/presentation/bloc/movie_details_bloc.dart';
 import 'package:movie_app/core/services/injection_container.dart';
 import 'package:movie_app/core/routes/routing.dart';
 import 'package:movie_app/core/theme/app_theme.dart';
@@ -16,6 +17,7 @@ void main() async {
         BlocProvider(create: (context) => sl<SplashBloc>()..add(SplashStart())),
         BlocProvider(create: (context) => sl<NavigationBloc>()),
         BlocProvider(create: (context) => sl<HomeBloc>()),
+        BlocProvider(create: (context) => sl<MovieDetailsBloc>()),
       ],
       child: const MyApp(),
     ),

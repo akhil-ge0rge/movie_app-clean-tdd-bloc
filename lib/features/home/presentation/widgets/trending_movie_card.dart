@@ -24,7 +24,7 @@ class TrendingMovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(RouteNames.movieDetailsScreen);
+        context.push("${RouteNames.movieDetailsScreen}/${movie.id}");
       },
       child: Stack(
         clipBehavior: Clip.none,

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class MovieGenres extends Equatable {
   final int id;
-  final int name;
+  final String name;
 
   const MovieGenres({required this.id, required this.name});
   @override

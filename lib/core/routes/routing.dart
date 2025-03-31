@@ -8,6 +8,7 @@ class PageRouter {
   PageRouter._();
 
   static final GoRouter router = GoRouter(
+    initialLocation: RouteNames.splashScreen,
     routes: [
       GoRoute(
         path: RouteNames.splashScreen,
@@ -18,8 +19,11 @@ class PageRouter {
         builder: (context, state) => const BottomNavigationScreen(),
       ),
       GoRoute(
-        path: RouteNames.movieDetailsScreen,
-        builder: (context, state) => const MovieDetailPage(),
+        path: "${RouteNames.movieDetailsScreen}/:movieId",
+        builder: (context, state) {
+          final movieId = int.parse(state.pathParameters['movieId']!);
+          return MovieDetailPage(movieId: movieId);
+        },
       ),
     ],
   );

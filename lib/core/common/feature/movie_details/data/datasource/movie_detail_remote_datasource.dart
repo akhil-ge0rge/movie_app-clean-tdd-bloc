@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:movie_app/core/common/feature/movie_details/data/model/movie_detail_model.dart';
 import 'package:movie_app/core/constants/app_url.dart';
@@ -16,7 +18,7 @@ class MovieDetailRemoteDatasourceImpl implements MovieDetailRemoteDatasource {
     try {
       final res = await service.get("${AppUrl.movieDetailsEND}/$id");
 
-      final movie = MovieDetailModel.fromJson(res.data);
+      final movie = MovieDetailModel.fromMap(res.data);
       return movie;
     } on DioException catch (e) {
       throw ServerException(message: e.message.toString(), statusCode: 600);

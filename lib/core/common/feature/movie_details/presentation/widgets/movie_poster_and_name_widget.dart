@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/core/common/feature/movie_details/domain/entities/movie_detail.dart';
+
+import 'package:movie_app/core/constants/app_url.dart';
 
 import 'package:movie_app/core/extensions/media_query_extensions.dart';
 
 class MoviePosterAndNameWidget extends StatelessWidget {
-  const MoviePosterAndNameWidget({super.key});
+  final MovieDetail movie;
+  const MoviePosterAndNameWidget({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +37,7 @@ class MoviePosterAndNameWidget extends StatelessWidget {
                 ),
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  imageUrl:
-                      'https://media.themoviedb.org/t/p/w500_and_h282_face/n6bUvigpRFqSwmPp1m2YADdbRBc.jpg',
+                  imageUrl: AppUrl.imageBaseURL + movie.backdropPath,
                 ),
               ),
             ),
@@ -52,8 +55,7 @@ class MoviePosterAndNameWidget extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: CachedNetworkImage(
-                    imageUrl:
-                        "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/39jIr3A4ScUeGxFdMeARYKNxTgU.jpg",
+                    imageUrl: AppUrl.imageBaseURL + movie.posterPath,
                     memCacheHeight:
                         ((scrHeight * 0.18).toInt() *
                                 MediaQuery.of(context).devicePixelRatio)
@@ -75,9 +77,9 @@ class MoviePosterAndNameWidget extends StatelessWidget {
             SizedBox(width: scrWidth * 0.4),
             SizedBox(
               width: scrWidth * 0.6,
-
+              height: scrHeight * 0.08,
               child: Text(
-                "Spiderman No Way Home",
+                movie.originalTitle,
                 style: textTheme.bodyMedium?.copyWith(fontSize: 20),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

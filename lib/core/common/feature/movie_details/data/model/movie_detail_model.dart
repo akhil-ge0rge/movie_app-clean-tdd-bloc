@@ -54,11 +54,14 @@ class MovieDetailModel extends MovieDetail {
     return MovieDetailModel(
       id: map['id'] ?? 0,
       originalTitle: map['original_title'] ?? '',
-      adult: map['adult'] as bool,
+      adult: map['adult'] ?? false,
       backdropPath: map['backdrop_path'] ?? '',
       genres:
           (map['genres'] as List<dynamic>)
-              .map((genre) => MovieGenresModel.fromJson(genre))
+              .map(
+                (genre) =>
+                    MovieGenresModel.fromMap(genre as Map<String, dynamic>),
+              )
               .toList(),
       overview: map['overview'] ?? '',
       posterPath: map['poster_path'] ?? '',
